@@ -1,0 +1,20 @@
+{
+  "name": "Tomate un Mate",
+  "short_name": "Tomate un Mate",
+  "start_url": "https://tomateunmate6.github.io/assets/",
+  "display": "standalone",
+  "background_color": "#f8f5f2",
+  "theme_color": "#6e3826",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

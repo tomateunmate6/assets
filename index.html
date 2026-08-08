@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Tomate un Mate</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6e3826">
+
+<!-- Esto es lo que Apps Script no nos deja controlar: acá SÍ
+     funciona, porque esta página es la de "afuera" de verdad. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tomate un Mate">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
+<link rel="icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
+
+<style>
+
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+
+  body{
+    background:#f8f5f2;
+    color:#2f241e;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:24px;
+  }
+
+  .caja{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+  }
+
+  img{
+    width:96px;
+    height:96px;
+    border-radius:20px;
+    object-fit:cover;
+    box-shadow:0 10px 24px rgba(45,25,15,.15);
+  }
+
+  h1{
+    font-size:20px;
+    color:#6e3826;
+  }
+
+  p{
+    font-size:14px;
+    color:#8a7f75;
+    margin-top:-8px;
+  }
+
+  .spinner{
+    width:26px;
+    height:26px;
+    border:3px solid #e7ddd7;
+    border-top-color:#6e3826;
+    border-radius:50%;
+    animation:girar 0.8s linear infinite;
+  }
+
+  @keyframes girar{
+    to{ transform:rotate(360deg); }
+  }
+
+  a.abrir{
+    margin-top:10px;
+    display:inline-block;
+    background:#6e3826;
+    color:white;
+    text-decoration:none;
+    padding:12px 22px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:600;
+  }
+
+</style>
+
+</head>
+<body>
+
+  <div class="caja">
+
+    <img src="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg" alt="Tomate un Mate">
+
+    <div class="spinner"></div>
+
+    <h1>Tomate un Mate</h1>
+
+    <p>Abriendo la app...</p>
+
+    <a class="abrir" href="https://script.google.com/macros/s/AKfycbxSs3gY2FU4v1eaLfsRXmk5aNT_JBqKHj1j37rSlkBbc1Bb7c2aRNoGRg9pKlGVxA-Y/exec">
+      Abrir ahora
+    </a>
+
+  </div>
+
+  <script>
+    // Redirige apenas carga. Si por algo no dispara (JS bloqueado,
+    // etc.), queda el botón "Abrir ahora" como respaldo.
+    window.location.replace("https://script.google.com/macros/s/AKfycbxSs3gY2FU4v1eaLfsRXmk5aNT_JBqKHj1j37rSlkBbc1Bb7c2aRNoGRg9pKlGVxA-Y/exec");
+  </script>
+
+</body>
+</html>
