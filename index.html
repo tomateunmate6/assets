@@ -24,7 +24,7 @@
   body{
     background:#f8f5f2;
     color:#2f241e;
-    height:100vh;
+    min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -36,7 +36,8 @@
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:16px;
+    gap:14px;
+    max-width:340px;
   }
 
   img{
@@ -50,12 +51,14 @@
   h1{
     font-size:20px;
     color:#6e3826;
+    margin-top:4px;
   }
 
   p{
     font-size:14px;
     color:#8a7f75;
-    margin-top:-8px;
+    margin-top:-6px;
+    line-height:1.5;
   }
 
   .spinner{
@@ -71,8 +74,24 @@
     to{ transform:rotate(360deg); }
   }
 
+  .pasos{
+    background:white;
+    border:1px solid #e7ddd7;
+    border-radius:14px;
+    padding:16px 18px;
+    text-align:left;
+    font-size:14px;
+    line-height:1.7;
+    color:#2f241e;
+    width:100%;
+  }
+
+  .pasos b{
+    color:#6e3826;
+  }
+
   a.abrir{
-    margin-top:10px;
+    margin-top:6px;
     display:inline-block;
     background:#6e3826;
     color:white;
@@ -81,6 +100,14 @@
     border-radius:10px;
     font-size:14px;
     font-weight:600;
+    width:100%;
+  }
+
+  a.secundario{
+    color:#8a7f75;
+    font-size:13px;
+    text-decoration:underline;
+    margin-top:4px;
   }
 
 </style>
@@ -92,22 +119,63 @@
 
     <img src="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg" alt="Tomate un Mate">
 
-    <div class="spinner"></div>
+    <!-- Se muestra solo un instante, mientras el script decide si
+         hay que redirigir sola (modo app) o quedarse quieta
+         (navegador normal, para dar tiempo a agregarla a inicio) -->
+    <div id="cargando">
 
-    <h1>Tomate un Mate</h1>
+      <div class="spinner"></div>
+      <p style="margin-top:14px;">Cargando...</p>
 
-    <p>Abriendo la app...</p>
+    </div>
 
-    <a class="abrir" href="https://script.google.com/macros/s/AKfycbxSs3gY2FU4v1eaLfsRXmk5aNT_JBqKHj1j37rSlkBbc1Bb7c2aRNoGRg9pKlGVxA-Y/exec">
-      Abrir ahora
-    </a>
+    <!-- Se muestra si se abrió desde un navegador normal -->
+    <div id="instrucciones" style="display:none;">
+
+      <h1>Tomate un Mate</h1>
+
+      <p>Para tenerla como una app en tu celular:</p>
+
+      <div class="pasos">
+
+        1. Tocá el botón <b>Compartir</b> (el cuadrado con la flecha, abajo en Safari)<br><br>
+        2. Elegí <b>"Agregar a pantalla de inicio"</b><br><br>
+        3. Listo — a partir de ahora abrila desde ese ícono nuevo
+
+      </div>
+
+      <a class="abrir" href="https://script.google.com/macros/s/AKfycbxSs3gY2FU4v1eaLfsRXmk5aNT_JBqKHj1j37rSlkBbc1Bb7c2aRNoGRg9pKlGVxA-Y/exec">
+        Abrir la app ahora (sin instalar)
+      </a>
+
+    </div>
 
   </div>
 
   <script>
-    // Redirige apenas carga. Si por algo no dispara (JS bloqueado,
-    // etc.), queda el botón "Abrir ahora" como respaldo.
-    window.location.replace("https://script.google.com/macros/s/AKfycbxSs3gY2FU4v1eaLfsRXmk5aNT_JBqKHj1j37rSlkBbc1Bb7c2aRNoGRg9pKlGVxA-Y/exec");
+
+    // Solo redirige sola cuando ya la abriste desde el ícono que
+    // agregaste a la pantalla de inicio (eso es "modo standalone").
+    // Si la estás viendo en el navegador normal, se queda quieta
+    // mostrando los pasos, para darte tiempo a agregarla.
+
+    const URL_APP = "https://script.google.com/macros/s/AKfycbxSs3gY2FU4v1eaLfsRXmk5aNT_JBqKHj1j37rSlkBbc1Bb7c2aRNoGRg9pKlGVxA-Y/exec";
+
+    const enModoApp =
+        window.navigator.standalone === true ||
+        window.matchMedia("(display-mode: standalone)").matches;
+
+    if(enModoApp){
+
+        window.location.replace(URL_APP);
+
+    }else{
+
+        document.getElementById("cargando").style.display = "none";
+        document.getElementById("instrucciones").style.display = "block";
+
+    }
+
   </script>
 
 </body>
