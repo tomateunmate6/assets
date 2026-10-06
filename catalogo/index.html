@@ -10,6 +10,12 @@
 <meta name="description" content="Catálogo de mates, bombillas y accesorios de Tomate un Mate.">
 <meta name="theme-color" content="#f6f1ea">
 
+<!-- Cómo se ve el link cuando se comparte por WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tomate un Mate · Catálogo">
+<meta property="og:description" content="Mates, bombillas y accesorios.">
+<meta property="og:image" content="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
+
 <link rel="icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
 
@@ -776,12 +782,15 @@ function linkWhatsapp(producto){
         ? `Hola! Me interesa "${nombre}" que vi en el catálogo. ¿Está disponible?`
         : `Hola! Vi "${nombre}" en el catálogo y quería consultar si lo van a tener de nuevo.`;
 
-    // WhatsApp no permite adjuntar una imagen desde un link, pero si
-    // el mensaje lleva el link de la foto, se ve la vista previa.
-    const foto = producto.fotos && producto.fotos.length ? producto.fotos[0] : "";
+    // WhatsApp no permite ocultar un link detrás de un texto ni adjuntar
+    // una imagen desde la página, así que el mensaje lleva un link CORTO
+    // al producto: al abrirlo, el catálogo muestra su foto en grande.
+    if(producto.fotos && producto.fotos.length){
 
-    if(/^https?:\/\//.test(foto)){
-        mensaje += "\n" + foto;
+        const base = location.href.split(/[?#]/)[0];
+
+        mensaje += "\n" + base + "?p=" + encodeURIComponent(producto.id);
+
     }
 
     return "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
@@ -1230,6 +1239,32 @@ document.addEventListener("keydown", evento => {
 
 });
 
+// Si el link trae "?p=15", se abre directo ese producto: con fotos,
+// la primera en grande; sin fotos, se lo deja a la vista.
+function abrirProductoDelLink(){
+
+    const id = new URLSearchParams(location.search).get("p");
+
+    if(!id) return;
+
+    const producto = catalogo.productos.find(p => String(p.id) === id);
+
+    if(!producto) return;
+
+    if(producto.fotos && producto.fotos.length){
+
+        abrirVisor(producto, 0);
+
+        return;
+
+    }
+
+    const pieza = document.querySelector('.pieza[data-id="' + CSS.escape(String(producto.id)) + '"]');
+
+    if(pieza) pieza.scrollIntoView({ block: "center" });
+
+}
+
 fetch(API_CATALOGO)
 
     .then(respuesta => respuesta.json())
@@ -1245,6 +1280,8 @@ fetch(API_CATALOGO)
         dibujarProductos();
 
         dibujarCierre();
+
+        abrirProductoDelLink();
 
     })
 
