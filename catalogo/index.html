@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Tomate un Mate · Catálogo</title>
+<meta name="description" content="Catálogo de mates, bombillas y accesorios de Tomate un Mate.">
+<meta name="theme-color" content="#6e3826">
+
+<link rel="icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    color-scheme:light;
+    --principal:#6e3826;
+    --principal-hover:#592c1e;
+    --principal-claro:#f1e4dc;
+    --fondo:#f8f5f2;
+    --texto:#2b211c;
+    --texto-suave:#8a7f75;
+    --borde:#e8dfd7;
+    --whatsapp:#1fa855;
+    --whatsapp-hover:#188a45;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+body{
+    font-family:'Poppins', system-ui, sans-serif;
+    background:var(--fondo);
+    color:var(--texto);
+    line-height:1.5;
+}
+
+/* ---------- Encabezado ---------- */
+
+header{
+    background:var(--principal);
+    color:white;
+    text-align:center;
+    padding:36px 16px 44px;
+}
+
+.logo{
+    width:84px;
+    height:84px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid rgba(255,255,255,.85);
+    background:white;
+}
+
+header h1{
+    margin-top:14px;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:.3px;
+}
+
+header p{
+    margin-top:4px;
+    font-size:15px;
+    opacity:.85;
+}
+
+/* ---------- Contenido ---------- */
+
+main{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 16px 48px;
+}
+
+.categorias{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:18px 2px 6px;
+    margin-top:-24px;
+    scrollbar-width:none;
+}
+
+.categorias::-webkit-scrollbar{ display:none; }
+
+.chip{
+    flex-shrink:0;
+    border:1px solid var(--borde);
+    background:white;
+    color:var(--texto);
+    font-family:inherit;
+    font-size:15px;
+    font-weight:500;
+    padding:10px 20px;
+    border-radius:30px;
+    cursor:pointer;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+    transition:.15s;
+}
+
+.chip.activo{
+    background:var(--principal);
+    border-color:var(--principal);
+    color:white;
+}
+
+.grilla{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+    gap:22px;
+    margin-top:24px;
+}
+
+/* ---------- Tarjeta de producto ---------- */
+
+.tarjeta{
+    background:white;
+    border:1px solid var(--borde);
+    border-radius:20px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 4px 14px rgba(70,40,25,.06);
+}
+
+.foto{
+    position:relative;
+    aspect-ratio:1 / 1;
+    background:var(--principal-claro);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:64px;
+}
+
+.foto img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.agotado{
+    position:absolute;
+    top:12px;
+    left:12px;
+    background:rgba(43,33,28,.85);
+    color:white;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.4px;
+    padding:6px 12px;
+    border-radius:20px;
+}
+
+.cuerpo{
+    padding:16px 18px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    flex:1;
+}
+
+.categoriaTarjeta{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.6px;
+    text-transform:uppercase;
+    color:var(--texto-suave);
+}
+
+.cuerpo h2{
+    font-size:18px;
+    font-weight:600;
+    line-height:1.3;
+    overflow-wrap:anywhere;
+}
+
+.descripcion{
+    font-size:14px;
+    color:var(--texto-suave);
+    overflow-wrap:anywhere;
+}
+
+.precio{
+    margin-top:auto;
+    padding-top:8px;
+    font-size:24px;
+    font-weight:700;
+    color:var(--principal);
+}
+
+.btnWhatsapp{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin-top:10px;
+    padding:13px 16px;
+    border-radius:14px;
+    background:var(--whatsapp);
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    font-size:15px;
+    transition:.15s;
+}
+
+.btnWhatsapp:hover{ background:var(--whatsapp-hover); }
+
+.btnWhatsapp svg{ width:20px; height:20px; fill:currentColor; flex-shrink:0; }
+
+.btnWhatsapp.consultar{
+    background:white;
+    color:var(--whatsapp-hover);
+    border:2px solid var(--whatsapp);
+}
+
+/* ---------- Estados ---------- */
+
+.mensaje{
+    grid-column:1 / -1;
+    text-align:center;
+    padding:60px 16px;
+    color:var(--texto-suave);
+    font-size:16px;
+}
+
+.esqueleto{
+    height:380px;
+    border-radius:20px;
+    background:linear-gradient(90deg, #efe7e0 25%, #f7f2ee 50%, #efe7e0 75%);
+    background-size:200% 100%;
+    animation:brillo 1.3s infinite;
+}
+
+@keyframes brillo{
+    from{ background-position:200% 0; }
+    to{ background-position:-200% 0; }
+}
+
+/* ---------- Pie ---------- */
+
+footer{
+    text-align:center;
+    padding:28px 16px 40px;
+    color:var(--texto-suave);
+    font-size:14px;
+}
+
+footer a{
+    color:var(--principal);
+    font-weight:600;
+    text-decoration:none;
+}
+
+@media (max-width:560px){
+
+    header{ padding:28px 16px 40px; }
+
+    header h1{ font-size:24px; }
+
+    .grilla{
+        grid-template-columns:repeat(2, 1fr);
+        gap:12px;
+    }
+
+    .cuerpo{ padding:12px 12px 14px; }
+
+    .cuerpo h2{ font-size:15px; }
+
+    .descripcion{ font-size:13px; }
+
+    .precio{ font-size:19px; }
+
+    .btnWhatsapp{ font-size:13px; padding:11px 8px; gap:6px; }
+
+    .foto{ font-size:46px; }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <img
+        class="logo"
+        src="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg"
+        alt="Tomate un Mate">
+
+    <h1>Tomate un Mate</h1>
+
+    <p>Catálogo</p>
+
+</header>
+
+<main>
+
+    <nav class="categorias" id="categorias" aria-label="Categorías"></nav>
+
+    <section class="grilla" id="grilla">
+
+        <div class="esqueleto"></div>
+        <div class="esqueleto"></div>
+        <div class="esqueleto"></div>
+        <div class="esqueleto"></div>
+
+    </section>
+
+</main>
+
+<footer id="pie"></footer>
+
+<script>
+
+// Dirección de la app (Apps Script). Siempre lee lo último que
+// se cargó desde la solapa "Catálogo" de la app de gestión.
+const API_CATALOGO =
+    "https://script.google.com/macros/s/AKfycbxmlAU6gnhv9OT0P8Xs5V1XuFhMZToWnwJbz6gMi0diUCuqqUqiPBI65VmVbFn7PcBQ/exec?catalogo";
+
+const ICONO_WHATSAPP =
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>';
+
+let catalogo = { telefono: "", instagram: "", productos: [] };
+let categoriaActiva = "Todos";
+
+function esc(texto){
+
+    return String(texto ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+
+}
+
+function formatearPrecio(valor){
+
+    return "$" + Number(valor).toLocaleString("es-AR");
+
+}
+
+// Deja solo los números y le antepone el código de Argentina
+// si no lo tiene (para que el link de WhatsApp funcione).
+function numeroWhatsapp(telefono){
+
+    let numero = String(telefono || "").replace(/\D/g, "").replace(/^0+/, "");
+
+    if(!numero) return "";
+
+    if(!numero.startsWith("54")){
+        numero = "54" + numero;
+    }
+
+    return numero;
+
+}
+
+function linkWhatsapp(producto){
+
+    const numero = numeroWhatsapp(catalogo.telefono);
+
+    if(!numero) return "";
+
+    const mensaje = producto.disponible
+        ? `Hola! Me interesa "${producto.titulo}" que vi en el catálogo. ¿Está disponible?`
+        : `Hola! Vi "${producto.titulo}" en el catálogo y quería consultar si lo van a tener de nuevo.`;
+
+    return "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+
+}
+
+function dibujarCategorias(){
+
+    const nombres = ["Todos"].concat(
+        [...new Set(catalogo.productos.map(p => p.categoria).filter(Boolean))]
+    );
+
+    const contenedor = document.getElementById("categorias");
+
+    // Con una sola categoría no hace falta mostrar los botones
+    if(nombres.length <= 2){
+
+        contenedor.innerHTML = "";
+
+        return;
+
+    }
+
+    contenedor.innerHTML = nombres.map(nombre => `
+
+        <button
+            class="chip ${nombre === categoriaActiva ? "activo" : ""}"
+            data-categoria="${esc(nombre)}">
+            ${esc(nombre)}
+        </button>
+
+    `).join("");
+
+}
+
+function crearTarjeta(producto){
+
+    const foto = producto.fotos && producto.fotos.length ? producto.fotos[0] : "";
+
+    const link = linkWhatsapp(producto);
+
+    return `
+
+    <article class="tarjeta">
+
+        <div class="foto">
+
+            ${foto
+                ? `<img src="${esc(foto)}" alt="${esc(producto.titulo)}" loading="lazy"
+                        onerror="this.remove()">`
+                : "🧉"
+            }
+
+            ${producto.disponible ? "" : `<span class="agotado">Agotado</span>`}
+
+        </div>
+
+        <div class="cuerpo">
+
+            ${producto.categoria
+                ? `<span class="categoriaTarjeta">${esc(producto.categoria)}</span>`
+                : ""
+            }
+
+            <h2>${esc(producto.titulo)}</h2>
+
+            ${producto.descripcion
+                ? `<p class="descripcion">${esc(producto.descripcion)}</p>`
+                : ""
+            }
+
+            <div class="precio">${formatearPrecio(producto.precio)}</div>
+
+            ${link ? `
+
+            <a
+                class="btnWhatsapp ${producto.disponible ? "" : "consultar"}"
+                href="${link}"
+                target="_blank"
+                rel="noopener">
+
+                ${ICONO_WHATSAPP}
+
+                ${producto.disponible ? "Lo quiero" : "Consultar"}
+
+            </a>
+
+            ` : ""}
+
+        </div>
+
+    </article>
+
+    `;
+
+}
+
+function dibujarProductos(){
+
+    const grilla = document.getElementById("grilla");
+
+    const productos = catalogo.productos.filter(p =>
+        categoriaActiva === "Todos" || p.categoria === categoriaActiva
+    );
+
+    if(!productos.length){
+
+        grilla.innerHTML = `<div class="mensaje">Todavía no hay productos para mostrar. ¡Volvé pronto! 🧉</div>`;
+
+        return;
+
+    }
+
+    grilla.innerHTML = productos.map(crearTarjeta).join("");
+
+}
+
+function dibujarPie(){
+
+    const instagram = String(catalogo.instagram || "").trim().replace(/^@/, "");
+
+    document.getElementById("pie").innerHTML = instagram
+        ? `Seguinos en <a href="https://instagram.com/${encodeURIComponent(instagram)}" target="_blank" rel="noopener">@${esc(instagram)}</a>`
+        : "";
+
+}
+
+document.getElementById("categorias").addEventListener("click", evento => {
+
+    const boton = evento.target.closest(".chip");
+
+    if(!boton) return;
+
+    categoriaActiva = boton.dataset.categoria;
+
+    dibujarCategorias();
+
+    dibujarProductos();
+
+});
+
+fetch(API_CATALOGO)
+
+    .then(respuesta => respuesta.json())
+
+    .then(datos => {
+
+        if(datos.error) throw new Error(datos.error);
+
+        catalogo = datos;
+
+        dibujarCategorias();
+
+        dibujarProductos();
+
+        dibujarPie();
+
+    })
+
+    .catch(() => {
+
+        document.getElementById("grilla").innerHTML =
+            `<div class="mensaje">No pudimos cargar el catálogo. Probá de nuevo en unos minutos.</div>`;
+
+    });
+
+</script>
+
+</body>
+
+</html>
