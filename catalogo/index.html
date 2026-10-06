@@ -47,7 +47,7 @@ header{
     background:var(--principal);
     color:white;
     text-align:center;
-    padding:36px 16px 44px;
+    padding:32px 16px 30px;
 }
 
 .logo{
@@ -80,26 +80,61 @@ main{
     padding:0 16px 48px;
 }
 
+.barraCategorias{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:var(--fondo);
+    border-bottom:1px solid var(--borde);
+}
+
 .categorias{
     display:flex;
     gap:10px;
     overflow-x:auto;
-    padding:18px 2px 6px;
-    margin-top:-24px;
+    max-width:1100px;
+    margin:0 auto;
+    padding:14px 16px;
     scrollbar-width:none;
+}
+
+.categorias:empty{ display:none; }
+
+#contenido{ scroll-margin-top:70px; }
+
+.seccion{ margin-top:30px; }
+
+.tituloSeccion{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:21px;
+    font-weight:700;
+    color:var(--principal);
+}
+
+.tituloSeccion small{
+    font-size:13px;
+    font-weight:600;
+    color:var(--texto-suave);
+    background:white;
+    border:1px solid var(--borde);
+    padding:2px 10px;
+    border-radius:20px;
 }
 
 .categorias::-webkit-scrollbar{ display:none; }
 
 .chip{
     flex-shrink:0;
+    white-space:nowrap;
     border:1px solid var(--borde);
     background:white;
     color:var(--texto);
     font-family:inherit;
     font-size:15px;
     font-weight:500;
-    padding:10px 20px;
+    padding:10px 18px;
     border-radius:30px;
     cursor:pointer;
     box-shadow:0 2px 8px rgba(0,0,0,.06);
@@ -116,7 +151,7 @@ main{
     display:grid;
     grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
     gap:22px;
-    margin-top:24px;
+    margin-top:16px;
 }
 
 /* ---------- Tarjeta de producto ---------- */
@@ -306,18 +341,26 @@ footer a{
 
 </header>
 
-<main>
+<div class="barraCategorias">
 
     <nav class="categorias" id="categorias" aria-label="Categorías"></nav>
 
-    <section class="grilla" id="grilla">
+</div>
 
-        <div class="esqueleto"></div>
-        <div class="esqueleto"></div>
-        <div class="esqueleto"></div>
-        <div class="esqueleto"></div>
+<main>
 
-    </section>
+    <div id="contenido">
+
+        <div class="grilla">
+
+            <div class="esqueleto"></div>
+            <div class="esqueleto"></div>
+            <div class="esqueleto"></div>
+            <div class="esqueleto"></div>
+
+        </div>
+
+    </div>
 
 </main>
 
@@ -375,24 +418,56 @@ function linkWhatsapp(producto){
 
     if(!numero) return "";
 
-    const mensaje = producto.disponible
+    let mensaje = producto.disponible
         ? `Hola! Me interesa "${producto.titulo}" que vi en el catálogo. ¿Está disponible?`
         : `Hola! Vi "${producto.titulo}" en el catálogo y quería consultar si lo van a tener de nuevo.`;
+
+    // WhatsApp no permite adjuntar una imagen desde un link, pero si
+    // el mensaje lleva el link de la foto, se ve la vista previa.
+    const foto = producto.fotos && producto.fotos.length ? producto.fotos[0] : "";
+
+    if(/^https?:\/\//.test(foto)){
+        mensaje += "\n" + foto;
+    }
 
     return "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
 
 }
 
-function dibujarCategorias(){
+function iconoCategoria(nombre){
 
-    const nombres = ["Todos"].concat(
-        [...new Set(catalogo.productos.map(p => p.categoria).filter(Boolean))]
-    );
+    const n = String(nombre || "").toLowerCase();
+
+    if(n.includes("bombill")) return "🥢";
+    if(n.includes("mate")) return "🧉";
+    if(n.includes("termo")) return "♨️";
+    if(n.includes("bolso") || n.includes("matera")) return "👜";
+    if(n.includes("promo") || n.includes("combo")) return "🎁";
+
+    return "✨";
+
+}
+
+function nombreCategoria(producto){
+
+    return producto.categoria || "Otros";
+
+}
+
+function categoriasDisponibles(){
+
+    return [...new Set(catalogo.productos.map(nombreCategoria))];
+
+}
+
+function dibujarCategorias(){
 
     const contenedor = document.getElementById("categorias");
 
-    // Con una sola categoría no hace falta mostrar los botones
-    if(nombres.length <= 2){
+    const nombres = categoriasDisponibles();
+
+    // Sin productos no hay nada que filtrar
+    if(!nombres.length){
 
         contenedor.innerHTML = "";
 
@@ -400,15 +475,27 @@ function dibujarCategorias(){
 
     }
 
-    contenedor.innerHTML = nombres.map(nombre => `
+    const boton = (nombre, texto) => `
 
         <button
             class="chip ${nombre === categoriaActiva ? "activo" : ""}"
             data-categoria="${esc(nombre)}">
-            ${esc(nombre)}
+            ${texto}
         </button>
 
-    `).join("");
+    `;
+
+    contenedor.innerHTML =
+
+        boton("Todos", "Todos (" + catalogo.productos.length + ")")
+
+        + nombres.map(nombre => {
+
+            const cantidad = catalogo.productos.filter(p => nombreCategoria(p) === nombre).length;
+
+            return boton(nombre, iconoCategoria(nombre) + " " + esc(nombre) + " (" + cantidad + ")");
+
+        }).join("");
 
 }
 
@@ -427,7 +514,7 @@ function crearTarjeta(producto){
             ${foto
                 ? `<img src="${esc(foto)}" alt="${esc(producto.titulo)}" loading="lazy"
                         onerror="this.remove()">`
-                : "🧉"
+                : iconoCategoria(producto.categoria)
             }
 
             ${producto.disponible ? "" : `<span class="agotado">Agotado</span>`}
@@ -476,21 +563,46 @@ function crearTarjeta(producto){
 
 function dibujarProductos(){
 
-    const grilla = document.getElementById("grilla");
+    const contenido = document.getElementById("contenido");
 
-    const productos = catalogo.productos.filter(p =>
-        categoriaActiva === "Todos" || p.categoria === categoriaActiva
-    );
+    if(!catalogo.productos.length){
 
-    if(!productos.length){
-
-        grilla.innerHTML = `<div class="mensaje">Todavía no hay productos para mostrar. ¡Volvé pronto! 🧉</div>`;
+        contenido.innerHTML = `<div class="grilla"><div class="mensaje">Todavía no hay productos para mostrar. ¡Volvé pronto! 🧉</div></div>`;
 
         return;
 
     }
 
-    grilla.innerHTML = productos.map(crearTarjeta).join("");
+    // "Todos" muestra una sección por categoría; si se elige una,
+    // se ve solo esa.
+    const nombres = categoriasDisponibles().filter(nombre =>
+        categoriaActiva === "Todos" || nombre === categoriaActiva
+    );
+
+    contenido.innerHTML = nombres.map(nombre => {
+
+        const productos = catalogo.productos.filter(p => nombreCategoria(p) === nombre);
+
+        return `
+
+        <section class="seccion">
+
+            <h2 class="tituloSeccion">
+                ${iconoCategoria(nombre)} ${esc(nombre)}
+                <small>${productos.length}</small>
+            </h2>
+
+            <div class="grilla">
+
+                ${productos.map(crearTarjeta).join("")}
+
+            </div>
+
+        </section>
+
+        `;
+
+    }).join("");
 
 }
 
@@ -516,6 +628,8 @@ document.getElementById("categorias").addEventListener("click", evento => {
 
     dibujarProductos();
 
+    document.getElementById("contenido").scrollIntoView({ behavior: "smooth" });
+
 });
 
 fetch(API_CATALOGO)
@@ -538,8 +652,8 @@ fetch(API_CATALOGO)
 
     .catch(() => {
 
-        document.getElementById("grilla").innerHTML =
-            `<div class="mensaje">No pudimos cargar el catálogo. Probá de nuevo en unos minutos.</div>`;
+        document.getElementById("contenido").innerHTML =
+            `<div class="grilla"><div class="mensaje">No pudimos cargar el catálogo. Probá de nuevo en unos minutos.</div></div>`;
 
     });
 
