@@ -364,6 +364,14 @@ main{
     overflow-wrap:anywhere;
 }
 
+.incluye{
+    margin-top:6px;
+    font-size:14px;
+    font-weight:500;
+    color:var(--acento);
+    overflow-wrap:anywhere;
+}
+
 .descripcion{
     margin-top:8px;
     font-size:15px;
@@ -913,6 +921,11 @@ function crearPieza(producto){
             <div class="textos">
 
                 <h3>${esc(normalizarTexto(producto.titulo))}</h3>
+
+                ${producto.incluye
+                    ? `<p class="incluye">${esc(normalizarTexto(producto.incluye))}</p>`
+                    : ""
+                }
 
                 ${producto.descripcion
                     ? `<p class="descripcion">${esc(producto.descripcion)}</p>`
