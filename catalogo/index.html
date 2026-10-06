@@ -8,182 +8,252 @@
 
 <title>Tomate un Mate · Catálogo</title>
 <meta name="description" content="Catálogo de mates, bombillas y accesorios de Tomate un Mate.">
-<meta name="theme-color" content="#6e3826">
+<meta name="theme-color" content="#f6f1ea">
 
 <link rel="icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
     color-scheme:light;
-    --principal:#6e3826;
-    --principal-hover:#592c1e;
-    --principal-claro:#f1e4dc;
-    --fondo:#f8f5f2;
-    --texto:#2b211c;
-    --texto-suave:#8a7f75;
-    --borde:#e8dfd7;
-    --whatsapp:#1fa855;
-    --whatsapp-hover:#188a45;
+    --papel:#f6f1ea;
+    --tinta:#2b211c;
+    --tinta-suave:#6a5e55;
+    --linea:#ddd2c6;
+    --acento:#6e3826;
+    --acento-oscuro:#4d2518;
+    --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
+    --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --sans:'Jost', system-ui, -apple-system, sans-serif;
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
 
 body{
-    font-family:'Poppins', system-ui, sans-serif;
-    background:var(--fondo);
-    color:var(--texto);
-    line-height:1.5;
+    font-family:var(--sans);
+    background:var(--papel);
+    color:var(--tinta);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
 }
 
-/* ---------- Encabezado ---------- */
+/* Lo que el navegador dibuja por su cuenta, con los colores de la marca */
+
+::selection{
+    background:var(--acento);
+    color:white;
+}
+
+:focus-visible{
+    outline:2px solid var(--acento);
+    outline-offset:3px;
+}
+
+button{ font-family:inherit; }
+
+/* ---------- Portada ---------- */
 
 header{
-    background:var(--principal);
-    color:white;
     text-align:center;
-    padding:32px 16px 30px;
+    padding:56px 20px 40px;
 }
 
 .logo{
-    width:84px;
-    height:84px;
+    width:76px;
+    height:76px;
     border-radius:50%;
     object-fit:cover;
-    border:3px solid rgba(255,255,255,.85);
-    background:white;
 }
 
 header h1{
-    margin-top:14px;
-    font-size:28px;
-    font-weight:700;
-    letter-spacing:.3px;
+    margin-top:18px;
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:40px;
+    line-height:1.1;
+    letter-spacing:.04em;
+    color:var(--acento);
 }
 
-header p{
-    margin-top:4px;
-    font-size:15px;
-    opacity:.85;
+.subtitulo{
+    margin-top:12px;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--tinta-suave);
 }
 
-/* ---------- Contenido ---------- */
-
-main{
-    max-width:1100px;
-    margin:0 auto;
-    padding:0 16px 48px;
-}
+/* ---------- Navegación por categoría ---------- */
 
 .barraCategorias{
     position:sticky;
     top:0;
     z-index:10;
-    background:var(--fondo);
-    border-bottom:1px solid var(--borde);
+    background:rgba(246,241,234,.94);
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+    border-top:1px solid var(--linea);
+    border-bottom:1px solid var(--linea);
 }
 
 .categorias{
     display:flex;
-    gap:10px;
-    overflow-x:auto;
-    max-width:1100px;
+    justify-content:center;
+    gap:34px;
+    max-width:1180px;
     margin:0 auto;
-    padding:14px 16px;
+    padding:0 20px;
+    overflow-x:auto;
     scrollbar-width:none;
-}
-
-.categorias:empty{ display:none; }
-
-#contenido{ scroll-margin-top:70px; }
-
-.seccion{ margin-top:30px; }
-
-.tituloSeccion{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:21px;
-    font-weight:700;
-    color:var(--principal);
-}
-
-.tituloSeccion small{
-    font-size:13px;
-    font-weight:600;
-    color:var(--texto-suave);
-    background:white;
-    border:1px solid var(--borde);
-    padding:2px 10px;
-    border-radius:20px;
 }
 
 .categorias::-webkit-scrollbar{ display:none; }
 
-.chip{
+.categorias:empty{ display:none; }
+
+.enlaceCategoria{
     flex-shrink:0;
     white-space:nowrap;
-    border:1px solid var(--borde);
-    background:white;
-    color:var(--texto);
-    font-family:inherit;
-    font-size:15px;
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:16px 2px 14px;
+    font-family:var(--sans);
+    font-size:13px;
     font-weight:500;
-    padding:10px 18px;
-    border-radius:30px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--tinta-suave);
     cursor:pointer;
-    box-shadow:0 2px 8px rgba(0,0,0,.06);
-    transition:.15s;
+    transition:color .2s, border-color .2s;
 }
 
-.chip.activo{
-    background:var(--principal);
-    border-color:var(--principal);
-    color:white;
+@media (hover:hover) and (pointer:fine){
+
+    .enlaceCategoria:hover{ color:var(--acento); }
+
+}
+
+.enlaceCategoria.activo{
+    color:var(--acento);
+    border-bottom-color:var(--acento);
+}
+
+.enlaceCategoria sup{
+    font-size:10px;
+    margin-left:3px;
+    letter-spacing:0;
+}
+
+/* ---------- Secciones ---------- */
+
+main{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 20px 24px;
+}
+
+#contenido{ scroll-margin-top:64px; }
+
+.seccion{ padding-top:64px; }
+
+.encabezadoSeccion{
+    display:flex;
+    align-items:baseline;
+    gap:20px;
+}
+
+.encabezadoSeccion h2{
+    font-family:var(--serif);
+    font-weight:500;
+    font-style:italic;
+    font-size:44px;
+    line-height:1;
+    color:var(--tinta);
+}
+
+.encabezadoSeccion .regla{
+    flex:1;
+    height:1px;
+    background:var(--linea);
+    transform:translateY(-6px);
+}
+
+.encabezadoSeccion small{
+    font-size:12px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--tinta-suave);
 }
 
 .grilla{
     display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
-    gap:22px;
-    margin-top:16px;
+    grid-template-columns:repeat(3, 1fr);
+    gap:56px 36px;
+    margin-top:36px;
 }
 
-/* ---------- Tarjeta de producto ---------- */
+/* ---------- Producto ---------- */
 
-.tarjeta{
-    background:white;
-    border:1px solid var(--borde);
-    border-radius:20px;
-    overflow:hidden;
+.pieza{
     display:flex;
     flex-direction:column;
-    box-shadow:0 4px 14px rgba(70,40,25,.06);
 }
 
 .foto{
     position:relative;
-    aspect-ratio:1 / 1;
-    background:var(--principal-claro);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:64px;
+    aspect-ratio:4 / 5;
+    background:#ebe2d7;
+    overflow:hidden;
 }
 
-.foto img{
+.foto > img,
+.carrusel img{
     width:100%;
     height:100%;
     object-fit:cover;
     display:block;
 }
 
-/* Varias fotos: se deslizan de costado */
+/* Si tiene fotos, se pueden abrir en grande */
+.foto.conFotos{ cursor:zoom-in; }
+
+.sinFoto{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.sinFoto img{
+    width:34%;
+    border-radius:50%;
+    opacity:.22;
+    filter:grayscale(1);
+}
+
+.agotado{
+    position:absolute;
+    top:14px;
+    left:14px;
+    background:var(--papel);
+    color:var(--tinta);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    padding:6px 12px;
+}
+
+/* Varias fotos: se deslizan; en computadora hay flechas */
+
 .carrusel{
     display:flex;
     width:100%;
@@ -200,93 +270,263 @@ main{
     scroll-snap-align:center;
 }
 
-.contadorFotos{
+.flecha{
     position:absolute;
-    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:50%;
+    background:rgba(246,241,234,.92);
+    color:var(--tinta);
+    cursor:pointer;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    transition:background .15s, transform .16s var(--ease-out);
+}
+
+.flecha svg,
+.flechaVisor svg,
+.cerrarVisor svg{
+    width:20px;
+    height:20px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.75;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.flecha:hover{ background:white; }
+
+.flecha:active{ transform:translateY(-50%) scale(.94); }
+
+.flecha.izq{ left:10px; }
+.flecha.der{ right:10px; }
+
+@media (hover:hover){
+
+    .visor:hover .flecha,
+    .visor:focus-within .flecha{ display:flex; }
+
+}
+
+.puntos{
+    position:absolute;
+    left:0;
+    right:0;
     bottom:12px;
-    background:rgba(43,33,28,.8);
-    color:white;
-    font-size:12px;
-    font-weight:600;
-    padding:4px 10px;
-    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    gap:6px;
     pointer-events:none;
 }
 
-.agotado{
-    position:absolute;
-    top:12px;
-    left:12px;
-    background:rgba(43,33,28,.85);
-    color:white;
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:.4px;
-    padding:6px 12px;
-    border-radius:20px;
+.puntos span{
+    width:18px;
+    height:2px;
+    background:rgba(255,255,255,.55);
+    transition:background .2s;
 }
 
-.cuerpo{
-    padding:16px 18px 18px;
+.puntos span.activo{ background:white; }
+
+.visor{
+    position:relative;
+    width:100%;
+    height:100%;
+}
+
+.datos{
+    padding-top:18px;
     display:flex;
     flex-direction:column;
-    gap:6px;
     flex:1;
 }
 
-.categoriaTarjeta{
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:.6px;
-    text-transform:uppercase;
-    color:var(--texto-suave);
+.textos{
+    margin-bottom:18px;
 }
 
-.cuerpo h2{
-    font-size:18px;
+.datos h3{
+    font-family:var(--serif);
     font-weight:600;
-    line-height:1.3;
+    font-size:25px;
+    line-height:1.15;
     overflow-wrap:anywhere;
 }
 
 .descripcion{
-    font-size:14px;
-    color:var(--texto-suave);
+    margin-top:8px;
+    font-size:15px;
+    color:var(--tinta-suave);
     overflow-wrap:anywhere;
 }
 
-.precio{
+.pie{
     margin-top:auto;
-    padding-top:8px;
-    font-size:24px;
-    font-weight:700;
-    color:var(--principal);
+    padding-top:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    border-top:1px solid var(--linea);
 }
 
-.btnWhatsapp{
+.precio{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:25px;
+    font-variant-numeric:lining-nums tabular-nums;
+    color:var(--acento);
+    white-space:nowrap;
+}
+
+.consultar{
+    display:inline-block;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--tinta);
+    text-decoration:none;
+    border-bottom:1px solid var(--tinta);
+    padding-bottom:2px;
+    white-space:nowrap;
+    transition:color .15s, border-color .15s, transform .16s var(--ease-out);
+}
+
+.consultar:active{ transform:scale(.97); }
+
+@media (hover:hover) and (pointer:fine){
+
+    .consultar:hover{
+        color:var(--acento);
+        border-color:var(--acento);
+    }
+
+}
+
+/* ---------- Foto en grande ---------- */
+
+.visorGrande{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:rgba(20,15,12,.96);
+    display:flex;
+    flex-direction:column;
+    opacity:0;
+    transition:opacity .15s ease-out;
+}
+
+.visorGrande[hidden]{ display:none; }
+
+.visorGrande.abierto{
+    opacity:1;
+    transition:opacity .2s var(--ease-out);
+}
+
+.tiraVisor{
+    flex:1;
+    min-height:0;
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    transform:scale(.97);
+    transition:transform .15s ease-out;
+}
+
+.visorGrande.abierto .tiraVisor{
+    transform:scale(1);
+    transition:transform .2s var(--ease-out);
+}
+
+.tiraVisor::-webkit-scrollbar{ display:none; }
+
+.tiraVisor img{
+    flex:0 0 100%;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    scroll-snap-align:center;
+    padding:64px 24px 8px;
+}
+
+.cerrarVisor,
+.flechaVisor{
+    position:absolute;
+    width:44px;
+    height:44px;
+    border:none;
+    border-radius:50%;
+    background:rgba(246,241,234,.14);
+    color:white;
+    cursor:pointer;
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:8px;
-    margin-top:10px;
-    padding:13px 16px;
-    border-radius:14px;
-    background:var(--whatsapp);
-    color:white;
-    text-decoration:none;
-    font-weight:600;
-    font-size:15px;
-    transition:.15s;
+    transition:background .15s, transform .16s var(--ease-out);
 }
 
-.btnWhatsapp:hover{ background:var(--whatsapp-hover); }
+.cerrarVisor{ top:14px; right:14px; z-index:2; }
 
-.btnWhatsapp svg{ width:20px; height:20px; fill:currentColor; flex-shrink:0; }
+.cerrarVisor:active{ transform:scale(.94); }
 
-.btnWhatsapp.consultar{
-    background:white;
-    color:var(--whatsapp-hover);
-    border:2px solid var(--whatsapp);
+.flechaVisor{ top:50%; margin-top:-22px; z-index:2; }
+
+.flechaVisor:active{ transform:scale(.94); }
+
+.flechaVisor.izq{ left:18px; }
+.flechaVisor.der{ right:18px; }
+
+.flechaVisor[hidden]{ display:none; }
+
+@media (hover:hover) and (pointer:fine){
+
+    .cerrarVisor:hover,
+    .flechaVisor:hover{ background:rgba(246,241,234,.28); }
+
+}
+
+@media (hover:none){
+
+    /* En el celular se desliza con el dedo */
+    .flechaVisor{ display:none; }
+
+}
+
+.pieVisor{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:12px 24px 22px;
+    color:#e9ded3;
+    font-size:13px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.pieVisor span:first-child{
+    font-family:var(--serif);
+    font-size:20px;
+    font-weight:600;
+    letter-spacing:.02em;
+    text-transform:none;
+}
+
+body.sinScroll{ overflow:hidden; }
+
+@media (prefers-reduced-motion:reduce){
+
+    .visorGrande,
+    .visorGrande.abierto,
+    .tiraVisor,
+    .visorGrande.abierto .tiraVisor{ transition:opacity .15s linear; transform:none; }
+
 }
 
 /* ---------- Estados ---------- */
@@ -294,15 +534,16 @@ main{
 .mensaje{
     grid-column:1 / -1;
     text-align:center;
-    padding:60px 16px;
-    color:var(--texto-suave);
-    font-size:16px;
+    padding:70px 16px;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:24px;
+    color:var(--tinta-suave);
 }
 
 .esqueleto{
-    height:380px;
-    border-radius:20px;
-    background:linear-gradient(90deg, #efe7e0 25%, #f7f2ee 50%, #efe7e0 75%);
+    aspect-ratio:4 / 5;
+    background:linear-gradient(90deg, #ece3d8 25%, #f3ece3 50%, #ece3d8 75%);
     background-size:200% 100%;
     animation:brillo 1.3s infinite;
 }
@@ -312,43 +553,77 @@ main{
     to{ background-position:-200% 0; }
 }
 
-/* ---------- Pie ---------- */
+/* ---------- Cierre ---------- */
 
 footer{
+    margin-top:80px;
+    background:var(--acento);
+    color:#f3e7de;
     text-align:center;
-    padding:28px 16px 40px;
-    color:var(--texto-suave);
+    padding:48px 20px 52px;
+}
+
+footer .marca{
+    font-family:var(--serif);
+    font-size:28px;
+    font-weight:600;
+    letter-spacing:.04em;
+}
+
+footer p{
+    margin-top:10px;
     font-size:14px;
+    letter-spacing:.06em;
 }
 
 footer a{
-    color:var(--principal);
-    font-weight:600;
+    color:white;
     text-decoration:none;
+    border-bottom:1px solid rgba(255,255,255,.5);
+    padding-bottom:1px;
+}
+
+/* ---------- Pantallas más chicas ---------- */
+
+@media (max-width:900px){
+
+    .grilla{ grid-template-columns:repeat(2, 1fr); gap:44px 22px; }
+
 }
 
 @media (max-width:560px){
 
-    header{ padding:28px 16px 40px; }
+    header{ padding:40px 16px 30px; }
 
-    header h1{ font-size:24px; }
+    header h1{ font-size:32px; }
 
-    .grilla{
-        grid-template-columns:repeat(2, 1fr);
-        gap:12px;
+    .subtitulo{ letter-spacing:.26em; }
+
+    .categorias{ justify-content:flex-start; gap:26px; padding:0 16px; }
+
+    main{ padding:0 16px 8px; }
+
+    .seccion{ padding-top:48px; }
+
+    .encabezadoSeccion h2{ font-size:36px; }
+
+    .grilla{ gap:36px 14px; margin-top:26px; }
+
+    .datos{ padding-top:12px; }
+
+    .datos h3{ font-size:20px; }
+
+    .descripcion{ font-size:13.5px; }
+
+    .pie{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:8px;
     }
 
-    .cuerpo{ padding:12px 12px 14px; }
+    .precio{ font-size:22px; }
 
-    .cuerpo h2{ font-size:15px; }
-
-    .descripcion{ font-size:13px; }
-
-    .precio{ font-size:19px; }
-
-    .btnWhatsapp{ font-size:13px; padding:11px 8px; gap:6px; }
-
-    .foto{ font-size:46px; }
+    .agotado{ top:10px; left:10px; }
 
 }
 
@@ -367,7 +642,7 @@ footer a{
 
     <h1>Tomate un Mate</h1>
 
-    <p>Catálogo</p>
+    <p class="subtitulo">Catálogo</p>
 
 </header>
 
@@ -386,7 +661,6 @@ footer a{
             <div class="esqueleto"></div>
             <div class="esqueleto"></div>
             <div class="esqueleto"></div>
-            <div class="esqueleto"></div>
 
         </div>
 
@@ -394,7 +668,32 @@ footer a{
 
 </main>
 
-<footer id="pie"></footer>
+<footer id="cierre"></footer>
+
+<!-- Foto en grande -->
+
+<div class="visorGrande" id="visorGrande" role="dialog" aria-modal="true" aria-label="Fotos del producto" hidden>
+
+    <button class="cerrarVisor" id="cerrarVisor" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <div class="tiraVisor" id="tiraVisor"></div>
+
+    <button class="flechaVisor izq" id="visorAnterior" data-dir="-1" aria-label="Foto anterior">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+
+    <button class="flechaVisor der" id="visorSiguiente" data-dir="1" aria-label="Foto siguiente">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+
+    <div class="pieVisor">
+        <span id="tituloVisor"></span>
+        <span id="contadorVisor"></span>
+    </div>
+
+</div>
 
 <script>
 
@@ -403,8 +702,7 @@ footer a{
 const API_CATALOGO =
     "https://script.google.com/macros/s/AKfycbxmlAU6gnhv9OT0P8Xs5V1XuFhMZToWnwJbz6gMi0diUCuqqUqiPBI65VmVbFn7PcBQ/exec?catalogo";
 
-const ICONO_WHATSAPP =
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>';
+const LOGO = "https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg";
 
 let catalogo = { telefono: "", instagram: "", productos: [] };
 let categoriaActiva = "Todos";
@@ -417,6 +715,30 @@ function esc(texto){
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#39;");
+
+}
+
+// "TORPEDO CINCELADO - calabaza" -> "Torpedo Cincelado - calabaza".
+// Pasa a minúscula las palabras escritas TODO en mayúscula (más de
+// 3 letras), así no quedan gritando; las siglas cortas se respetan.
+function normalizarTexto(texto){
+
+    return String(texto || "")
+        .split(" ")
+        .map(palabra => {
+
+            const letras = palabra.replace(/[^A-Za-zÁÉÍÓÚÑÜáéíóúñü]/g, "");
+
+            if(letras.length > 3 && letras === letras.toUpperCase()){
+
+                return palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase();
+
+            }
+
+            return palabra;
+
+        })
+        .join(" ");
 
 }
 
@@ -448,9 +770,11 @@ function linkWhatsapp(producto){
 
     if(!numero) return "";
 
+    const nombre = normalizarTexto(producto.titulo);
+
     let mensaje = producto.disponible
-        ? `Hola! Me interesa "${producto.titulo}" que vi en el catálogo. ¿Está disponible?`
-        : `Hola! Vi "${producto.titulo}" en el catálogo y quería consultar si lo van a tener de nuevo.`;
+        ? `Hola! Me interesa "${nombre}" que vi en el catálogo. ¿Está disponible?`
+        : `Hola! Vi "${nombre}" en el catálogo y quería consultar si lo van a tener de nuevo.`;
 
     // WhatsApp no permite adjuntar una imagen desde un link, pero si
     // el mensaje lleva el link de la foto, se ve la vista previa.
@@ -464,23 +788,9 @@ function linkWhatsapp(producto){
 
 }
 
-function iconoCategoria(nombre){
-
-    const n = String(nombre || "").toLowerCase();
-
-    if(n.includes("bombill")) return "🥢";
-    if(n.includes("mate")) return "🧉";
-    if(n.includes("termo")) return "♨️";
-    if(n.includes("bolso") || n.includes("matera")) return "👜";
-    if(n.includes("promo") || n.includes("combo")) return "🎁";
-
-    return "✨";
-
-}
-
 function nombreCategoria(producto){
 
-    return producto.categoria || "Otros";
+    return normalizarTexto(producto.categoria) || "Otros";
 
 }
 
@@ -505,88 +815,116 @@ function dibujarCategorias(){
 
     }
 
-    const boton = (nombre, texto) => `
+    const enlace = (nombre, cantidad) => `
 
         <button
-            class="chip ${nombre === categoriaActiva ? "activo" : ""}"
+            class="enlaceCategoria ${nombre === categoriaActiva ? "activo" : ""}"
             data-categoria="${esc(nombre)}">
-            ${texto}
+            ${esc(nombre)}<sup>${cantidad}</sup>
         </button>
 
     `;
 
     contenedor.innerHTML =
 
-        boton("Todos", "Todos (" + catalogo.productos.length + ")")
+        enlace("Todos", catalogo.productos.length)
 
-        + nombres.map(nombre => {
+        + nombres.map(nombre =>
 
-            const cantidad = catalogo.productos.filter(p => nombreCategoria(p) === nombre).length;
+            enlace(nombre, catalogo.productos.filter(p => nombreCategoria(p) === nombre).length)
 
-            return boton(nombre, iconoCategoria(nombre) + " " + esc(nombre) + " (" + cantidad + ")");
-
-        }).join("");
+        ).join("");
 
 }
 
-function crearTarjeta(producto){
+function crearFotos(producto){
 
     const fotos = producto.fotos || [];
 
-    const link = linkWhatsapp(producto);
+    const titulo = esc(normalizarTexto(producto.titulo));
 
-    const imagen = url => `<img src="${esc(url)}" alt="${esc(producto.titulo)}" loading="lazy"
-                        onerror="this.remove()">`;
+    const imagen = (url, i = 0) => `<img data-i="${i}" src="${esc(url)}" alt="${titulo}" loading="lazy" onerror="this.remove()">`;
+
+    if(!fotos.length){
+
+        return `<div class="sinFoto"><img src="${LOGO}" alt=""></div>`;
+
+    }
+
+    if(fotos.length === 1){
+
+        return imagen(fotos[0]);
+
+    }
 
     return `
 
-    <article class="tarjeta">
+        <div class="visor">
 
-        <div class="foto">
+            <div class="carrusel">${fotos.map(imagen).join("")}</div>
 
-            ${fotos.length > 1
-                ? `<div class="carrusel">${fotos.map(imagen).join("")}</div>
-                   <span class="contadorFotos">📷 ${fotos.length}</span>`
-                : (fotos.length === 1
-                    ? imagen(fotos[0])
-                    : iconoCategoria(producto.categoria))
-            }
+            <button class="flecha izq" data-dir="-1" aria-label="Foto anterior">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+
+            <button class="flecha der" data-dir="1" aria-label="Foto siguiente">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+
+            <div class="puntos">
+
+                ${fotos.map((_, i) => `<span class="${i === 0 ? "activo" : ""}"></span>`).join("")}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+function crearPieza(producto){
+
+    const link = linkWhatsapp(producto);
+
+    return `
+
+    <article class="pieza" data-id="${esc(producto.id)}">
+
+        <div class="foto ${producto.fotos && producto.fotos.length ? "conFotos" : ""}">
+
+            ${crearFotos(producto)}
 
             ${producto.disponible ? "" : `<span class="agotado">Agotado</span>`}
 
         </div>
 
-        <div class="cuerpo">
+        <div class="datos">
 
-            ${producto.categoria
-                ? `<span class="categoriaTarjeta">${esc(producto.categoria)}</span>`
-                : ""
-            }
+            <div class="textos">
 
-            <h2>${esc(producto.titulo)}</h2>
+                <h3>${esc(normalizarTexto(producto.titulo))}</h3>
 
-            ${producto.descripcion
-                ? `<p class="descripcion">${esc(producto.descripcion)}</p>`
-                : ""
-            }
+                ${producto.descripcion
+                    ? `<p class="descripcion">${esc(producto.descripcion)}</p>`
+                    : ""
+                }
 
-            <div class="precio">${formatearPrecio(producto.precio)}</div>
+            </div>
 
-            ${link ? `
+            <div class="pie">
 
-            <a
-                class="btnWhatsapp ${producto.disponible ? "" : "consultar"}"
-                href="${link}"
-                target="_blank"
-                rel="noopener">
+                <span class="precio">${formatearPrecio(producto.precio)}</span>
 
-                ${ICONO_WHATSAPP}
+                ${link ? `
 
-                ${producto.disponible ? "Lo quiero" : "Consultar"}
+                <a class="consultar" href="${link}" target="_blank" rel="noopener">
+                    ${producto.disponible ? "Pedir por WhatsApp" : "Consultar"}
+                </a>
 
-            </a>
+                ` : ""}
 
-            ` : ""}
+            </div>
 
         </div>
 
@@ -602,7 +940,7 @@ function dibujarProductos(){
 
     if(!catalogo.productos.length){
 
-        contenido.innerHTML = `<div class="grilla"><div class="mensaje">Todavía no hay productos para mostrar. ¡Volvé pronto! 🧉</div></div>`;
+        contenido.innerHTML = `<div class="grilla"><div class="mensaje">Muy pronto vas a encontrar acá nuestros productos.</div></div>`;
 
         return;
 
@@ -622,14 +960,19 @@ function dibujarProductos(){
 
         <section class="seccion">
 
-            <h2 class="tituloSeccion">
-                ${iconoCategoria(nombre)} ${esc(nombre)}
-                <small>${productos.length}</small>
-            </h2>
+            <div class="encabezadoSeccion">
+
+                <h2>${esc(nombre)}</h2>
+
+                <span class="regla"></span>
+
+                <small>${productos.length} ${productos.length === 1 ? "pieza" : "piezas"}</small>
+
+            </div>
 
             <div class="grilla">
 
-                ${productos.map(crearTarjeta).join("")}
+                ${productos.map(crearPieza).join("")}
 
             </div>
 
@@ -641,19 +984,28 @@ function dibujarProductos(){
 
 }
 
-function dibujarPie(){
+function dibujarCierre(){
 
     const instagram = String(catalogo.instagram || "").trim().replace(/^@/, "");
 
-    document.getElementById("pie").innerHTML = instagram
-        ? `Seguinos en <a href="https://instagram.com/${encodeURIComponent(instagram)}" target="_blank" rel="noopener">@${esc(instagram)}</a>`
-        : "";
+    document.getElementById("cierre").innerHTML = `
+
+        <div class="marca">Tomate un Mate</div>
+
+        ${instagram
+            ? `<p>Seguinos en <a href="https://instagram.com/${encodeURIComponent(instagram)}" target="_blank" rel="noopener">@${esc(instagram)}</a></p>`
+            : ""
+        }
+
+    `;
 
 }
 
+// ---------- Interacciones ----------
+
 document.getElementById("categorias").addEventListener("click", evento => {
 
-    const boton = evento.target.closest(".chip");
+    const boton = evento.target.closest(".enlaceCategoria");
 
     if(!boton) return;
 
@@ -664,6 +1016,217 @@ document.getElementById("categorias").addEventListener("click", evento => {
     dibujarProductos();
 
     document.getElementById("contenido").scrollIntoView({ behavior: "smooth" });
+
+});
+
+// Flechas del carrusel de fotos (para computadora, donde no se desliza con el dedo)
+document.getElementById("contenido").addEventListener("click", evento => {
+
+    const flecha = evento.target.closest(".flecha");
+
+    if(!flecha) return;
+
+    const carrusel = flecha.closest(".visor").querySelector(".carrusel");
+
+    carrusel.scrollBy({
+        left: Number(flecha.dataset.dir) * carrusel.clientWidth,
+        behavior: "smooth"
+    });
+
+});
+
+// Los puntitos siguen a la foto que se está viendo
+document.getElementById("contenido").addEventListener("scroll", evento => {
+
+    const carrusel = evento.target;
+
+    if(!carrusel.classList || !carrusel.classList.contains("carrusel")) return;
+
+    const actual = Math.round(carrusel.scrollLeft / carrusel.clientWidth);
+
+    carrusel.parentElement
+        .querySelectorAll(".puntos span")
+        .forEach((punto, i) => punto.classList.toggle("activo", i === actual));
+
+}, true);
+
+// ---------- Foto en grande ----------
+// Al tocar una foto se abre a pantalla completa. Con varias fotos
+// se pasan con las flechas, el teclado (← →) o deslizando.
+
+const visor = document.getElementById("visorGrande");
+const tiraVisor = document.getElementById("tiraVisor");
+
+let elementoQueAbrio = null;
+let temporizadorVisor = null;
+
+function actualizarContadorVisor(){
+
+    const total = tiraVisor.children.length;
+
+    const actual = Math.round(tiraVisor.scrollLeft / (tiraVisor.clientWidth || 1)) + 1;
+
+    document.getElementById("contadorVisor").textContent =
+        total > 1 ? actual + " / " + total : "";
+
+}
+
+function abrirVisor(producto, indice){
+
+    clearTimeout(temporizadorVisor);
+
+    tiraVisor.innerHTML = producto.fotos
+        .map(url => `<img src="${esc(url)}" alt="${esc(normalizarTexto(producto.titulo))}">`)
+        .join("");
+
+    document.getElementById("tituloVisor").textContent = normalizarTexto(producto.titulo);
+
+    const hayVarias = producto.fotos.length > 1;
+
+    document.getElementById("visorAnterior").hidden = !hayVarias;
+    document.getElementById("visorSiguiente").hidden = !hayVarias;
+
+    elementoQueAbrio = document.activeElement;
+
+    visor.hidden = false;
+
+    document.body.classList.add("sinScroll");
+
+    // Se posiciona en la foto tocada sin animación
+    tiraVisor.style.scrollSnapType = "none";
+    tiraVisor.scrollLeft = indice * tiraVisor.clientWidth;
+
+    // Se vuelve a fijar en el cuadro siguiente por si el navegador
+    // todavía no había terminado de medir las fotos.
+    requestAnimationFrame(() => {
+
+        tiraVisor.scrollLeft = indice * tiraVisor.clientWidth;
+
+        tiraVisor.style.scrollSnapType = "";
+
+        actualizarContadorVisor();
+
+    });
+
+    actualizarContadorVisor();
+
+    // Fuerza el cálculo de estilos para que la entrada se anime
+    void visor.offsetWidth;
+
+    visor.classList.add("abierto");
+
+    document.getElementById("cerrarVisor").focus();
+
+}
+
+function cerrarVisor(){
+
+    if(visor.hidden) return;
+
+    visor.classList.remove("abierto");
+
+    document.body.classList.remove("sinScroll");
+
+    // La salida es más corta que la entrada (150 ms)
+    temporizadorVisor = setTimeout(() => {
+
+        visor.hidden = true;
+
+        tiraVisor.innerHTML = "";
+
+    }, 150);
+
+    if(elementoQueAbrio && elementoQueAbrio.focus){
+        elementoQueAbrio.focus();
+    }
+
+}
+
+function moverVisor(direccion, animado){
+
+    tiraVisor.scrollBy({
+        left: direccion * tiraVisor.clientWidth,
+        behavior: animado ? "smooth" : "auto"
+    });
+
+}
+
+document.getElementById("contenido").addEventListener("click", evento => {
+
+    const foto = evento.target.closest(".foto.conFotos");
+
+    if(!foto || evento.target.closest(".flecha")) return;
+
+    const id = foto.closest(".pieza").dataset.id;
+
+    const producto = catalogo.productos.find(p => String(p.id) === id);
+
+    if(!producto) return;
+
+    const imagen = evento.target.closest("img");
+
+    const indice = imagen ? Number(imagen.dataset.i) || 0 : 0;
+
+    abrirVisor(producto, Math.min(indice, producto.fotos.length - 1));
+
+});
+
+document.getElementById("cerrarVisor").addEventListener("click", cerrarVisor);
+
+// Click en el fondo oscuro (no sobre la foto ni los botones) cierra
+visor.addEventListener("click", evento => {
+
+    if(evento.target === visor || evento.target.closest(".pieVisor")){
+        cerrarVisor();
+    }
+
+});
+
+visor.addEventListener("click", evento => {
+
+    const flecha = evento.target.closest(".flechaVisor");
+
+    if(flecha){
+        moverVisor(Number(flecha.dataset.dir), true);
+    }
+
+});
+
+tiraVisor.addEventListener("scroll", actualizarContadorVisor, { passive: true });
+
+document.addEventListener("keydown", evento => {
+
+    if(visor.hidden) return;
+
+    if(evento.key === "Escape"){
+        cerrarVisor();
+        return;
+    }
+
+    // Con el teclado el cambio es instantáneo, sin animación
+    if(evento.key === "ArrowRight"){ moverVisor(1, false); }
+
+    if(evento.key === "ArrowLeft"){ moverVisor(-1, false); }
+
+    // El foco no se escapa a la página de atrás
+    if(evento.key === "Tab"){
+
+        const botones = [...visor.querySelectorAll("button")].filter(b => !b.hidden && b.offsetParent !== null);
+
+        if(!botones.length) return;
+
+        const primero = botones[0];
+        const ultimo = botones[botones.length - 1];
+
+        if(evento.shiftKey && document.activeElement === primero){
+            evento.preventDefault();
+            ultimo.focus();
+        }else if(!evento.shiftKey && document.activeElement === ultimo){
+            evento.preventDefault();
+            primero.focus();
+        }
+
+    }
 
 });
 
@@ -681,7 +1244,7 @@ fetch(API_CATALOGO)
 
         dibujarProductos();
 
-        dibujarPie();
+        dibujarCierre();
 
     })
 
