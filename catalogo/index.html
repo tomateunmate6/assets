@@ -19,6 +19,8 @@
 <link rel="icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg">
 
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
@@ -756,6 +758,15 @@ function normalizarTexto(texto){
 
 }
 
+// Las fotos de Drive se pueden pedir en distintos tamaños. En las tarjetas
+// alcanza con ~640 px (pesan mucho menos); al abrir una en grande se usa
+// la original.
+function tamano(url, ancho){
+
+    return String(url).replace(/=w[0-9]+$/, "=w" + ancho);
+
+}
+
 function formatearPrecio(valor){
 
     return "$" + Number(valor).toLocaleString("es-AR");
@@ -860,7 +871,7 @@ function crearFotos(producto){
 
     const titulo = esc(normalizarTexto(producto.titulo));
 
-    const imagen = (url, i = 0) => `<img data-i="${i}" src="${esc(url)}" alt="${titulo}" loading="lazy" onerror="this.remove()">`;
+    const imagen = (url, i = 0) => `<img data-i="${i}" src="${esc(tamano(url, 640))}" decoding="async" alt="${titulo}" loading="lazy" onerror="this.remove()">`;
 
     if(!fotos.length){
 
@@ -1254,15 +1265,29 @@ document.addEventListener("keydown", evento => {
 
 // Si el link trae "?p=15", se abre directo ese producto: con fotos,
 // la primera en grande; sin fotos, se lo deja a la vista.
+let linkProcesado = false;
+
 function abrirProductoDelLink(){
+
+    if(linkProcesado) return;
 
     const id = new URLSearchParams(location.search).get("p");
 
-    if(!id) return;
+    if(!id){
+
+        linkProcesado = true;
+
+        return;
+
+    }
 
     const producto = catalogo.productos.find(p => String(p.id) === id);
 
+    // Si todavía no está (se está mostrando una copia vieja), se
+    // vuelve a intentar cuando llegue la versión nueva.
     if(!producto) return;
+
+    linkProcesado = true;
 
     if(producto.fotos && producto.fotos.length){
 
@@ -1278,32 +1303,113 @@ function abrirProductoDelLink(){
 
 }
 
-fetch(API_CATALOGO)
+// ---------- Carga ----------
+// 1) Si ya se visitó antes, se muestra AL INSTANTE la última copia que
+//    quedó guardada en este teléfono/computadora.
+// 2) En paralelo se pide la versión actual al servidor y, si cambió
+//    algo, se redibuja sola.
+// 3) Mientras la página está abierta se vuelve a revisar cada minuto
+//    (y al volver a la pestaña), así lo que se cargó en la app aparece
+//    sin tener que refrescar.
 
-    .then(respuesta => respuesta.json())
+const CLAVE_LOCAL = "tomateUnMateCatalogo_v1";
 
-    .then(datos => {
+let textoMostrado = "";
+let ultimaRevision = 0;
 
-        if(datos.error) throw new Error(datos.error);
+function mostrarCatalogoCompleto(datos, texto){
 
-        catalogo = datos;
+    if(texto === textoMostrado) return;
 
-        dibujarCategorias();
+    // No se redibuja mientras hay una foto en grande abierta: se aplica
+    // en la próxima revisión.
+    if(!visor.hidden) return;
 
-        dibujarProductos();
+    textoMostrado = texto;
 
-        dibujarCierre();
+    catalogo = datos;
 
-        abrirProductoDelLink();
+    if(categoriaActiva !== "Todos" && !categoriasDisponibles().includes(categoriaActiva)){
+        categoriaActiva = "Todos";
+    }
 
-    })
+    dibujarCategorias();
 
-    .catch(() => {
+    dibujarProductos();
+
+    dibujarCierre();
+
+    abrirProductoDelLink();
+
+}
+
+function revisarCatalogo(){
+
+    ultimaRevision = Date.now();
+
+    return fetch(API_CATALOGO, { cache: "no-store" })
+
+        .then(respuesta => respuesta.text())
+
+        .then(texto => {
+
+            const datos = JSON.parse(texto);
+
+            if(datos.error) throw new Error(datos.error);
+
+            try{ localStorage.setItem(CLAVE_LOCAL, texto); }catch(e){}
+
+            mostrarCatalogoCompleto(datos, texto);
+
+        });
+
+}
+
+try{
+
+    const guardado = localStorage.getItem(CLAVE_LOCAL);
+
+    if(guardado){
+
+        const datos = JSON.parse(guardado);
+
+        if(datos && Array.isArray(datos.productos)){
+
+            mostrarCatalogoCompleto(datos, guardado);
+
+        }
+
+    }
+
+}catch(e){}
+
+revisarCatalogo().catch(() => {
+
+    // Si ya había una copia en pantalla, se deja esa; si no, se avisa
+    if(!textoMostrado){
 
         document.getElementById("contenido").innerHTML =
             `<div class="grilla"><div class="mensaje">No pudimos cargar el catálogo. Probá de nuevo en unos minutos.</div></div>`;
 
-    });
+    }
+
+});
+
+setInterval(() => {
+
+    if(document.visibilityState === "visible"){
+        revisarCatalogo().catch(() => {});
+    }
+
+}, 60000);
+
+document.addEventListener("visibilitychange", () => {
+
+    if(document.visibilityState === "visible" && Date.now() - ultimaRevision > 20000){
+        revisarCatalogo().catch(() => {});
+    }
+
+});
 
 </script>
 
