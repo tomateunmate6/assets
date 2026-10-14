@@ -36,6 +36,15 @@
     --acento:#6e3826;
     --acento-oscuro:#4d2518;
     --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
+
+    /* Formas suaves, las mismas en todo el catálogo */
+    --radio-medio:14px;      /* fotos, botones */
+    --radio-tarjeta:18px;    /* tarjetas de promo */
+    --radio-interno:12px;    /* lo que va dentro de una tarjeta */
+
+    /* Una sola sombra, teñida con el marrón de la marca */
+    --sombra-tarjeta:0 14px 30px -16px rgba(110,56,38,.34), 0 2px 6px rgba(43,33,28,.06);
+    --sombra-tarjeta-alta:0 22px 40px -18px rgba(110,56,38,.42), 0 3px 8px rgba(43,33,28,.08);
     --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
     --sans:'Jost', system-ui, -apple-system, sans-serif;
 }
@@ -219,6 +228,8 @@ main{
     aspect-ratio:4 / 5;
     background:#ebe2d7;
     overflow:hidden;
+    isolation:isolate;
+    border-radius:var(--radio-medio);
 }
 
 .foto > img,
@@ -231,6 +242,18 @@ main{
 
 /* Si tiene fotos, se pueden abrir en grande */
 .foto.conFotos{ cursor:zoom-in; }
+
+.foto > img,
+.carrusel img{
+    transition:transform .4s var(--ease-out);
+}
+
+@media (hover:hover) and (pointer:fine){
+
+    .foto.conFotos:hover > img,
+    .foto.conFotos:hover .carrusel img{ transform:scale(1.035); }
+
+}
 
 .sinFoto{
     width:100%;
@@ -258,6 +281,7 @@ main{
     letter-spacing:.2em;
     text-transform:uppercase;
     padding:6px 12px;
+    border-radius:999px;
 }
 
 /* Varias fotos: se deslizan; en computadora hay flechas */
@@ -357,6 +381,12 @@ main{
 .textos{
     margin-bottom:18px;
 }
+
+.datos h3,
+.datosFila h3,
+.encabezadoSeccion h2{ text-wrap:balance; }
+
+.descripcion{ text-wrap:pretty; }
 
 .datos h3{
     font-family:var(--serif);
@@ -538,6 +568,15 @@ body.sinScroll{ overflow:hidden; }
 
 @media (prefers-reduced-motion:reduce){
 
+    .filaPromo,
+    .foto > img,
+    .carrusel img{ transition:none; }
+
+    .filaPromo:hover{ transform:none; }
+
+    .foto.conFotos:hover > img,
+    .foto.conFotos:hover .carrusel img{ transform:none; }
+
     .visorGrande,
     .visorGrande.abierto,
     .tiraVisor,
@@ -573,6 +612,7 @@ body.sinScroll{ overflow:hidden; }
 
 footer{
     margin-top:80px;
+    border-radius:26px 26px 0 0;
     background:var(--acento);
     color:#f3e7de;
     text-align:center;
@@ -599,34 +639,37 @@ footer a{
     padding-bottom:1px;
 }
 
-/* ---------- Promos: resaltadas, una por fila ---------- */
+/* ---------- Promos: tarjetas redondeadas, una por fila ---------- */
+/* Se destacan por la sombra, el tamaño del precio y el botón lleno; la
+   forma (radios, tipografía, fotos) es la misma que la del resto. */
 
 .panelPromos{
+    display:grid;
+    gap:18px;
     margin-top:30px;
-    background:#efe3d9;
-    border:1px solid #e0cdbf;
 }
 
 .filaPromo{
     display:grid;
-    grid-template-columns:170px 1fr auto;
+    grid-template-columns:176px 1fr auto;
     gap:16px 32px;
     align-items:center;
-    padding:24px 32px;
-    border-top:1px solid #e0cdbf;
+    padding:20px 28px 20px 20px;
+    background:linear-gradient(100deg, #fffdfb 0%, #fffdfb 58%, #faeee4 100%);
+    border-radius:var(--radio-tarjeta);
+    box-shadow:var(--sombra-tarjeta);
+    transition:transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
 }
-
-.filaPromo:first-child{ border-top:none; }
 
 .filaPromo .foto{
     aspect-ratio:1 / 1;
-    background:#e4d3c5;
+    border-radius:var(--radio-interno);
 }
 
 .datosFila h3{
     font-family:var(--serif);
     font-weight:600;
-    font-size:30px;
+    font-size:31px;
     line-height:1.12;
     overflow-wrap:anywhere;
 }
@@ -643,7 +686,7 @@ footer a{
 }
 
 .filaPromo .precio{
-    font-size:36px;
+    font-size:38px;
     line-height:1;
 }
 
@@ -651,8 +694,9 @@ footer a{
     display:inline-block;
     background:var(--acento);
     color:white;
-    border:1px solid var(--acento);
-    padding:13px 24px;
+    border:1.5px solid var(--acento);
+    border-radius:var(--radio-medio);
+    padding:14px 26px;
     font-size:12px;
     font-weight:500;
     letter-spacing:.14em;
@@ -672,6 +716,11 @@ footer a{
 
 @media (hover:hover) and (pointer:fine){
 
+    .filaPromo:hover{
+        transform:translateY(-2px);
+        box-shadow:var(--sombra-tarjeta-alta);
+    }
+
     .btnPromo:hover{
         background:var(--acento-oscuro);
         border-color:var(--acento-oscuro);
@@ -687,14 +736,14 @@ footer a{
     .grilla{ grid-template-columns:repeat(2, 1fr); gap:44px 22px; }
 
     .filaPromo{
-        grid-template-columns:130px 1fr auto;
+        grid-template-columns:132px 1fr auto;
         gap:14px 22px;
-        padding:20px 22px;
+        padding:16px 22px 16px 16px;
     }
 
     .datosFila h3{ font-size:26px; }
 
-    .filaPromo .precio{ font-size:30px; }
+    .filaPromo .precio{ font-size:32px; }
 
 }
 
@@ -736,9 +785,12 @@ footer a{
     .filaPromo{
         grid-template-columns:96px 1fr;
         gap:14px 16px;
-        padding:18px 16px;
+        padding:14px;
         align-items:start;
+        background:linear-gradient(180deg, #fffdfb 0%, #fffdfb 55%, #faeee4 100%);
     }
+
+    .panelPromos{ gap:14px; }
 
     .datosFila h3{ font-size:21px; }
 
@@ -754,7 +806,7 @@ footer a{
 
     .filaPromo .precio{ font-size:26px; }
 
-    .btnPromo{ padding:12px 16px; letter-spacing:.1em; }
+    .btnPromo{ padding:12px 18px; letter-spacing:.1em; }
 
     .filaPromo .agotado{ top:6px; left:6px; padding:4px 8px; font-size:10px; }
 
