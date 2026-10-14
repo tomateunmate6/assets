@@ -599,11 +599,102 @@ footer a{
     padding-bottom:1px;
 }
 
+/* ---------- Promos: resaltadas, una por fila ---------- */
+
+.panelPromos{
+    margin-top:30px;
+    background:#efe3d9;
+    border:1px solid #e0cdbf;
+}
+
+.filaPromo{
+    display:grid;
+    grid-template-columns:170px 1fr auto;
+    gap:16px 32px;
+    align-items:center;
+    padding:24px 32px;
+    border-top:1px solid #e0cdbf;
+}
+
+.filaPromo:first-child{ border-top:none; }
+
+.filaPromo .foto{
+    aspect-ratio:1 / 1;
+    background:#e4d3c5;
+}
+
+.datosFila h3{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:30px;
+    line-height:1.12;
+    overflow-wrap:anywhere;
+}
+
+.datosFila .incluye{ font-size:15px; }
+
+.datosFila .descripcion{ margin-top:8px; }
+
+.compraFila{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:14px;
+}
+
+.filaPromo .precio{
+    font-size:36px;
+    line-height:1;
+}
+
+.btnPromo{
+    display:inline-block;
+    background:var(--acento);
+    color:white;
+    border:1px solid var(--acento);
+    padding:13px 24px;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    text-decoration:none;
+    white-space:nowrap;
+    transition:background .15s, color .15s, transform .16s var(--ease-out);
+}
+
+.btnPromo:active{ transform:scale(.97); }
+
+/* Sin stock: botón vacío (se consulta, no se pide) */
+.btnPromo.consultar{
+    background:transparent;
+    color:var(--acento);
+}
+
+@media (hover:hover) and (pointer:fine){
+
+    .btnPromo:hover{
+        background:var(--acento-oscuro);
+        border-color:var(--acento-oscuro);
+        color:white;
+    }
+
+}
+
 /* ---------- Pantallas más chicas ---------- */
 
 @media (max-width:900px){
 
     .grilla{ grid-template-columns:repeat(2, 1fr); gap:44px 22px; }
+
+    .filaPromo{
+        grid-template-columns:130px 1fr auto;
+        gap:14px 22px;
+        padding:20px 22px;
+    }
+
+    .datosFila h3{ font-size:26px; }
+
+    .filaPromo .precio{ font-size:30px; }
 
 }
 
@@ -640,6 +731,34 @@ footer a{
     .precio{ font-size:22px; }
 
     .agotado{ top:10px; left:10px; }
+
+    /* Promo en el celular: foto y texto arriba, precio y botón abajo */
+    .filaPromo{
+        grid-template-columns:96px 1fr;
+        gap:14px 16px;
+        padding:18px 16px;
+        align-items:start;
+    }
+
+    .datosFila h3{ font-size:21px; }
+
+    .datosFila .incluye{ font-size:13.5px; }
+
+    .compraFila{
+        grid-column:1 / -1;
+        flex-direction:row;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+    }
+
+    .filaPromo .precio{ font-size:26px; }
+
+    .btnPromo{ padding:12px 16px; letter-spacing:.1em; }
+
+    .filaPromo .agotado{ top:6px; left:6px; padding:4px 8px; font-size:10px; }
+
+    .filaPromo .flecha{ display:none !important; }
 
 }
 
@@ -967,6 +1086,59 @@ function crearPieza(producto){
 
 }
 
+// Una promo ocupa una fila entera: foto, de qué está hecha, precio y botón
+function crearFilaPromo(producto){
+
+    const link = linkWhatsapp(producto);
+
+    return `
+
+    <article class="pieza filaPromo" data-id="${esc(producto.id)}">
+
+        <div class="foto ${producto.fotos && producto.fotos.length ? "conFotos" : ""}">
+
+            ${crearFotos(producto)}
+
+            ${producto.disponible ? "" : `<span class="agotado">Agotado</span>`}
+
+        </div>
+
+        <div class="datosFila">
+
+            <h3>${esc(normalizarTexto(producto.titulo))}</h3>
+
+            ${producto.incluye
+                ? `<p class="incluye">${esc(normalizarTexto(producto.incluye))}</p>`
+                : ""
+            }
+
+            ${producto.descripcion
+                ? `<p class="descripcion">${esc(producto.descripcion)}</p>`
+                : ""
+            }
+
+        </div>
+
+        <div class="compraFila">
+
+            <span class="precio">${formatearPrecio(producto.precio)}</span>
+
+            ${link ? `
+
+            <a class="btnPromo ${producto.disponible ? "" : "consultar"}" href="${link}" target="_blank" rel="noopener">
+                ${producto.disponible ? "Pedir por WhatsApp" : "Consultar"}
+            </a>
+
+            ` : ""}
+
+        </div>
+
+    </article>
+
+    `;
+
+}
+
 function dibujarProductos(){
 
     const contenido = document.getElementById("contenido");
@@ -989,6 +1161,10 @@ function dibujarProductos(){
 
         const productos = catalogo.productos.filter(p => nombreCategoria(p) === nombre);
 
+        // Las promos (traen "incluye") se muestran resaltadas, una por fila;
+        // el resto del catálogo sigue en grilla.
+        const sonPromos = productos.every(p => p.incluye);
+
         return `
 
         <section class="seccion">
@@ -999,15 +1175,27 @@ function dibujarProductos(){
 
                 <span class="regla"></span>
 
-                <small>${productos.length} ${productos.length === 1 ? "pieza" : "piezas"}</small>
+                <small>${productos.length} ${productos.length === 1 ? (sonPromos ? "promo" : "pieza") : (sonPromos ? "promos" : "piezas")}</small>
 
             </div>
+
+            ${sonPromos ? `
+
+            <div class="panelPromos">
+
+                ${productos.map(crearFilaPromo).join("")}
+
+            </div>
+
+            ` : `
 
             <div class="grilla">
 
                 ${productos.map(crearPieza).join("")}
 
             </div>
+
+            `}
 
         </section>
 
