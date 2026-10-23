@@ -223,13 +223,25 @@ main{
     flex-direction:column;
 }
 
+/* Cada producto es una tarjeta con un marco marrón fino (el del logo):
+   la foto, el nombre, el precio y el pedido quedan juntos y se reconocen
+   aunque el cliente saque una captura de pantalla. */
+.pieza:not(.filaPromo){
+    background:#fffdfb;
+    border:1.5px solid rgba(110,56,38,.55);
+    border-radius:var(--radio-tarjeta);
+    padding:12px;
+    box-shadow:var(--sombra-tarjeta);
+}
+
 .foto{
     position:relative;
     aspect-ratio:4 / 5;
     background:#ebe2d7;
     overflow:hidden;
     isolation:isolate;
-    border-radius:var(--radio-medio);
+    border-radius:var(--radio-interno);
+    border:1px solid var(--linea);
 }
 
 .foto > img,
@@ -272,17 +284,29 @@ main{
 
 .agotado{
     position:absolute;
-    top:14px;
-    left:14px;
-    background:var(--papel);
-    color:var(--tinta);
-    font-size:11px;
+    top:12px;
+    left:12px;
+    z-index:2;
+    background:var(--tinta);
+    color:white;
+    font-size:13px;
     font-weight:500;
     letter-spacing:.2em;
     text-transform:uppercase;
-    padding:6px 12px;
+    padding:8px 16px;
     border-radius:999px;
+    box-shadow:0 4px 12px rgba(43,33,28,.35);
 }
+
+/* Sin stock: la foto se apaga un poco y el precio queda en gris */
+.sinStock .foto > img,
+.sinStock .carrusel img,
+.sinStock .sinFoto{
+    opacity:.55;
+    filter:grayscale(.55);
+}
+
+.sinStock .precio{ color:var(--tinta-suave); }
 
 /* Varias fotos: se deslizan; en computadora hay flechas */
 
@@ -413,10 +437,10 @@ main{
 
 .pie{
     margin-top:auto;
-    padding-top:16px;
+    padding-top:14px;
     display:flex;
-    justify-content:space-between;
-    align-items:baseline;
+    flex-direction:column;
+    align-items:stretch;
     gap:12px;
     border-top:1px solid var(--linea);
 }
@@ -430,27 +454,47 @@ main{
     white-space:nowrap;
 }
 
-.consultar{
-    display:inline-block;
-    font-size:12px;
+.pedir{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    background:var(--acento);
+    color:white;
+    border:1.5px solid var(--acento);
+    border-radius:var(--radio-medio);
+    padding:13px 14px;
+    font-size:12.5px;
     font-weight:500;
-    letter-spacing:.14em;
+    letter-spacing:.12em;
     text-transform:uppercase;
-    color:var(--tinta);
     text-decoration:none;
-    border-bottom:1px solid var(--tinta);
-    padding-bottom:2px;
-    white-space:nowrap;
-    transition:color .15s, border-color .15s, transform .16s var(--ease-out);
+    text-align:center;
+    transition:background .15s, color .15s, transform .16s var(--ease-out);
 }
 
-.consultar:active{ transform:scale(.97); }
+.pedir svg,
+.btnPromo svg{
+    width:18px;
+    height:18px;
+    flex-shrink:0;
+    fill:currentColor;
+}
+
+.pedir:active{ transform:scale(.97); }
+
+/* Sin stock: botón vacío (se consulta, no se pide) */
+.pedir.consultar{
+    background:transparent;
+    color:var(--acento);
+}
 
 @media (hover:hover) and (pointer:fine){
 
-    .consultar:hover{
-        color:var(--acento);
-        border-color:var(--acento);
+    .pedir:hover{
+        background:var(--acento-oscuro);
+        border-color:var(--acento-oscuro);
+        color:white;
     }
 
 }
@@ -608,6 +652,168 @@ body.sinScroll{ overflow:hidden; }
     to{ background-position:-200% 0; }
 }
 
+/* ---------- Grabados personalizados ---------- */
+
+.avisoGrabados{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    width:min(100%, 620px);
+    margin:24px auto 0;
+    padding:14px 18px;
+    background:var(--acento);
+    color:white;
+    text-align:left;
+    text-decoration:none;
+    border-radius:var(--radio-tarjeta);
+    box-shadow:0 14px 28px -14px rgba(110,56,38,.6), 0 2px 6px rgba(43,33,28,.1);
+    transition:background .15s, transform .16s var(--ease-out);
+}
+
+.avisoGrabados:active{ transform:scale(.98); }
+
+@media (hover:hover) and (pointer:fine){
+
+    .avisoGrabados:hover{ background:var(--acento-oscuro); }
+
+}
+
+.avisoGrabados .estrella{
+    width:30px;
+    height:30px;
+    flex-shrink:0;
+    fill:#f3e7de;
+}
+
+.avisoGrabados .textoAviso{
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+}
+
+.avisoGrabados strong{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:23px;
+    line-height:1.1;
+    letter-spacing:.01em;
+}
+
+.avisoGrabados small{
+    font-size:13.5px;
+    color:#f3e7de;
+    letter-spacing:.02em;
+}
+
+.avisoGrabados .flechaAviso{
+    width:22px;
+    height:22px;
+    flex-shrink:0;
+    fill:none;
+    stroke:white;
+    stroke-width:1.9;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.avisoGrabados:empty{ display:none; }
+
+.bloqueGrabados{
+    max-width:1180px;
+    margin:64px auto 0;
+    padding:0 20px;
+    scroll-margin-top:70px;
+}
+
+.bloqueGrabados:empty{ display:none; }
+
+.tarjetaGrabados{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    align-items:center;
+    gap:20px 30px;
+    padding:28px 32px;
+    background:linear-gradient(100deg, #fffdfb 0%, #fffdfb 58%, #faeee4 100%);
+    border:1.5px solid rgba(110,56,38,.55);
+    border-radius:var(--radio-tarjeta);
+    box-shadow:var(--sombra-tarjeta);
+}
+
+.anilloGrabados{
+    width:86px;
+    height:86px;
+    flex-shrink:0;
+}
+
+.tarjetaGrabados h2{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:34px;
+    line-height:1.1;
+    color:var(--tinta);
+}
+
+.tarjetaGrabados p{
+    margin-top:8px;
+    font-size:15.5px;
+    color:var(--tinta-suave);
+    max-width:56ch;
+    text-wrap:pretty;
+}
+
+.tarjetaGrabados .pedir{
+    padding:15px 26px;
+    white-space:nowrap;
+}
+
+@media (max-width:900px){
+
+    .tarjetaGrabados{
+        grid-template-columns:auto 1fr;
+        padding:22px 22px;
+    }
+
+    .tarjetaGrabados .pedir{
+        grid-column:1 / -1;
+    }
+
+}
+
+@media (max-width:560px){
+
+    .bloqueGrabados{ margin-top:48px; padding:0 16px; }
+
+    .avisoGrabados{ margin-top:20px; padding:12px 14px; gap:12px; }
+
+    .avisoGrabados .estrella{ width:26px; height:26px; }
+
+    .avisoGrabados strong{ font-size:20px; }
+
+    .avisoGrabados small{ font-size:12.5px; }
+
+    .tarjetaGrabados{
+        grid-template-columns:1fr;
+        justify-items:start;
+        gap:14px;
+        padding:20px 18px;
+    }
+
+    .anilloGrabados{ width:64px; height:64px; }
+
+    .tarjetaGrabados h2{ font-size:28px; }
+
+    .tarjetaGrabados p{ font-size:14.5px; }
+
+    .tarjetaGrabados .pedir{
+        width:100%;
+        white-space:normal;
+        padding:13px 10px;
+    }
+
+}
+
 /* ---------- Cierre ---------- */
 
 footer{
@@ -619,11 +825,14 @@ footer{
     padding:48px 20px 52px;
 }
 
-footer .marca{
-    font-family:var(--serif);
-    font-size:28px;
-    font-weight:600;
-    letter-spacing:.04em;
+footer .logoCierre{
+    width:96px;
+    height:96px;
+    border-radius:50%;
+    object-fit:cover;
+    display:block;
+    margin:0 auto;
+    box-shadow:0 0 0 2px rgba(243,231,222,.55);
 }
 
 footer p{
@@ -656,6 +865,7 @@ footer a{
     align-items:center;
     padding:20px 28px 20px 20px;
     background:linear-gradient(100deg, #fffdfb 0%, #fffdfb 58%, #faeee4 100%);
+    border:1.5px solid rgba(110,56,38,.55);
     border-radius:var(--radio-tarjeta);
     box-shadow:var(--sombra-tarjeta);
     transition:transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
@@ -691,7 +901,10 @@ footer a{
 }
 
 .btnPromo{
-    display:inline-block;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
     background:var(--acento);
     color:white;
     border:1.5px solid var(--acento);
@@ -771,15 +984,17 @@ footer a{
 
     .descripcion{ font-size:13.5px; }
 
-    .pie{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:8px;
-    }
+    .pie{ gap:10px; }
 
     .precio{ font-size:22px; }
 
-    .agotado{ top:10px; left:10px; }
+    .pieza:not(.filaPromo){ padding:8px; border-radius:16px; }
+
+    .pedir{ padding:12px 6px; font-size:10.5px; letter-spacing:.05em; gap:6px; white-space:nowrap; }
+
+    .pedir svg{ width:15px; height:15px; }
+
+    .agotado{ top:8px; left:8px; font-size:12px; padding:7px 13px; }
 
     /* Promo en el celular: foto y texto arriba, precio y botón abajo */
     .filaPromo{
@@ -808,7 +1023,7 @@ footer a{
 
     .btnPromo{ padding:12px 18px; letter-spacing:.1em; }
 
-    .filaPromo .agotado{ top:6px; left:6px; padding:4px 8px; font-size:10px; }
+    .filaPromo .agotado{ top:6px; left:6px; padding:5px 10px; font-size:11px; }
 
     .filaPromo .flecha{ display:none !important; }
 
@@ -830,6 +1045,8 @@ footer a{
     <h1>Tomate un Mate</h1>
 
     <p class="subtitulo">Catálogo</p>
+
+    <a class="avisoGrabados" id="avisoGrabados" href="#grabados"></a>
 
 </header>
 
@@ -854,6 +1071,8 @@ footer a{
     </div>
 
 </main>
+
+<section class="bloqueGrabados" id="grabados"></section>
 
 <footer id="cierre"></footer>
 
@@ -1082,13 +1301,16 @@ function crearFotos(producto){
 
 }
 
+// Ícono de WhatsApp (SVG propio, hereda el color del botón)
+const ICONO_WHATSAPP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
+
 function crearPieza(producto){
 
     const link = linkWhatsapp(producto);
 
     return `
 
-    <article class="pieza" data-id="${esc(producto.id)}">
+    <article class="pieza ${producto.disponible ? "" : "sinStock"}" data-id="${esc(producto.id)}">
 
         <div class="foto ${producto.fotos && producto.fotos.length ? "conFotos" : ""}">
 
@@ -1122,7 +1344,8 @@ function crearPieza(producto){
 
                 ${link ? `
 
-                <a class="consultar" href="${link}" target="_blank" rel="noopener">
+                <a class="pedir ${producto.disponible ? "" : "consultar"}" href="${link}" target="_blank" rel="noopener">
+                    ${ICONO_WHATSAPP}
                     ${producto.disponible ? "Pedir por WhatsApp" : "Consultar"}
                 </a>
 
@@ -1145,7 +1368,7 @@ function crearFilaPromo(producto){
 
     return `
 
-    <article class="pieza filaPromo" data-id="${esc(producto.id)}">
+    <article class="pieza filaPromo ${producto.disponible ? "" : "sinStock"}" data-id="${esc(producto.id)}">
 
         <div class="foto ${producto.fotos && producto.fotos.length ? "conFotos" : ""}">
 
@@ -1178,6 +1401,7 @@ function crearFilaPromo(producto){
             ${link ? `
 
             <a class="btnPromo ${producto.disponible ? "" : "consultar"}" href="${link}" target="_blank" rel="noopener">
+                ${ICONO_WHATSAPP}
                 ${producto.disponible ? "Pedir por WhatsApp" : "Consultar"}
             </a>
 
@@ -1257,13 +1481,87 @@ function dibujarProductos(){
 
 }
 
+// Franja de grabados personalizados: lleva a WhatsApp con el mensaje ya escrito
+function linkWhatsappGrabados(){
+
+    const numero = numeroWhatsapp(catalogo.telefono);
+
+    if(!numero) return "";
+
+    const mensaje = "Hola! Vi el catálogo y quería consultar por un grabado personalizado.";
+
+    return "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+
+}
+
+function dibujarGrabados(){
+
+    const bloque = document.getElementById("grabados");
+
+    const aviso = document.getElementById("avisoGrabados");
+
+    const link = linkWhatsappGrabados();
+
+    // Sin teléfono cargado no hay a dónde mandar la consulta: no se muestra nada
+    if(!link){
+
+        bloque.innerHTML = "";
+        aviso.innerHTML = "";
+
+        return;
+
+    }
+
+    aviso.innerHTML = `
+
+        <svg class="estrella" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c.7 5.2 3.3 8.3 10 10-6.7 1.7-9.3 4.8-10 10-.7-5.2-3.3-8.3-10-10 6.7-1.7 9.3-4.8 10-10Z"/></svg>
+
+        <span class="textoAviso">
+            <strong>Hacemos grabados personalizados</strong>
+            <small>Tu nombre, una frase o un escudo en el aro del mate</small>
+        </span>
+
+        <svg class="flechaAviso" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+
+    `;
+
+    bloque.innerHTML = `
+
+        <div class="tarjetaGrabados">
+
+            <svg class="anilloGrabados" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="44" fill="none" stroke="#6e3826" stroke-width="2"/>
+                <circle cx="50" cy="50" r="30" fill="none" stroke="#6e3826" stroke-width="1.2"/>
+                <path d="M50 6 L50 14 M50 86 L50 94 M6 50 L14 50 M86 50 L94 50" stroke="#6e3826" stroke-width="2" stroke-linecap="round"/>
+                <path d="M50 38 C51.5 46 54 48.5 62 50 C54 51.5 51.5 54 50 62 C48.5 54 46 51.5 38 50 C46 48.5 48.5 46 50 38 Z" fill="#6e3826"/>
+            </svg>
+
+            <div>
+
+                <h2>Grabados personalizados</h2>
+
+                <p>Tu nombre, una frase, un escudo o un logo grabado en la virola del mate. Es un regalo único. Te mostramos el diseño antes de grabar.</p>
+
+            </div>
+
+            <a class="pedir" href="${link}" target="_blank" rel="noopener">
+                ${ICONO_WHATSAPP}
+                Consultar por WhatsApp
+            </a>
+
+        </div>
+
+    `;
+
+}
+
 function dibujarCierre(){
 
     const instagram = String(catalogo.instagram || "").trim().replace(/^@/, "");
 
     document.getElementById("cierre").innerHTML = `
 
-        <div class="marca">Tomate un Mate</div>
+        <img class="logoCierre" src="${LOGO}" alt="Tomate un Mate">
 
         ${instagram
             ? `<p>Seguinos en <a href="https://instagram.com/${encodeURIComponent(instagram)}" target="_blank" rel="noopener">@${esc(instagram)}</a></p>`
@@ -1576,6 +1874,8 @@ function mostrarCatalogoCompleto(datos, texto){
     dibujarCategorias();
 
     dibujarProductos();
+
+    dibujarGrabados();
 
     dibujarCierre();
 
