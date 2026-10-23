@@ -223,25 +223,13 @@ main{
     flex-direction:column;
 }
 
-/* Cada producto es una tarjeta con un marco marrón fino (el del logo):
-   la foto, el nombre, el precio y el pedido quedan juntos y se reconocen
-   aunque el cliente saque una captura de pantalla. */
-.pieza:not(.filaPromo){
-    background:#fffdfb;
-    border:1.5px solid rgba(110,56,38,.55);
-    border-radius:var(--radio-tarjeta);
-    padding:12px;
-    box-shadow:var(--sombra-tarjeta);
-}
-
 .foto{
     position:relative;
     aspect-ratio:4 / 5;
     background:#ebe2d7;
     overflow:hidden;
     isolation:isolate;
-    border-radius:var(--radio-interno);
-    border:1px solid var(--linea);
+    border-radius:var(--radio-medio);
 }
 
 .foto > img,
@@ -736,7 +724,6 @@ body.sinScroll{ overflow:hidden; }
     gap:20px 30px;
     padding:28px 32px;
     background:linear-gradient(100deg, #fffdfb 0%, #fffdfb 58%, #faeee4 100%);
-    border:1.5px solid rgba(110,56,38,.55);
     border-radius:var(--radio-tarjeta);
     box-shadow:var(--sombra-tarjeta);
 }
@@ -865,7 +852,6 @@ footer a{
     align-items:center;
     padding:20px 28px 20px 20px;
     background:linear-gradient(100deg, #fffdfb 0%, #fffdfb 58%, #faeee4 100%);
-    border:1.5px solid rgba(110,56,38,.55);
     border-radius:var(--radio-tarjeta);
     box-shadow:var(--sombra-tarjeta);
     transition:transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
@@ -987,8 +973,6 @@ footer a{
     .pie{ gap:10px; }
 
     .precio{ font-size:22px; }
-
-    .pieza:not(.filaPromo){ padding:8px; border-radius:16px; }
 
     .pedir{ padding:12px 6px; font-size:10.5px; letter-spacing:.05em; gap:6px; white-space:nowrap; }
 
