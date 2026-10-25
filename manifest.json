@@ -7,14 +7,14 @@
   "theme_color": "#6e3826",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg",
+      "src": "https://raw.githubusercontent.com/tomateunmate6/assets/main/logo-marron.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png"
     },
     {
-      "src": "https://raw.githubusercontent.com/tomateunmate6/assets/main/logo.jpeg",
+      "src": "https://raw.githubusercontent.com/tomateunmate6/assets/main/logo-marron.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png"
     }
   ]
 }
