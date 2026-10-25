@@ -14,8 +14,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Tomate un Mate">
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo-marron.png">
-<link rel="icon" href="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo-marron.png">
+
+<!-- Ícono de la pantalla de inicio: cuadrado y SIN transparencia (el iPhone
+     rellena de negro lo transparente) y con aire alrededor para que no se corte -->
+<link rel="apple-touch-icon" href="icono-app-180.png">
+<link rel="icon" href="icono-app-192.png">
 
 <style>
 
@@ -40,11 +43,12 @@
     max-width:340px;
   }
 
+  /* El ícono ya es cuadrado: se muestra entero, sin recortar */
   img{
-    width:96px;
-    height:96px;
-    border-radius:20px;
-    object-fit:cover;
+    width:104px;
+    height:104px;
+    border-radius:24px;
+    object-fit:contain;
     box-shadow:0 10px 24px rgba(45,25,15,.15);
   }
 
@@ -140,7 +144,7 @@
 
         document.getElementById("caja").innerHTML = `
 
-            <img src="https://raw.githubusercontent.com/tomateunmate6/assets/main/logo-marron.png" alt="Tomate un Mate">
+            <img src="icono-app-180.png" alt="Tomate un Mate">
 
             <h1>Tomate un Mate</h1>
 
